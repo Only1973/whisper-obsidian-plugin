@@ -25,6 +25,7 @@ export class WhisperSettingsTab extends PluginSettingTab {
 		this.createPromptSetting();
 		this.createLanguageSetting();
 		this.createSaveAudioFileToggleSetting();
+		this.createIncludeFileLinkToggleSetting();
 		this.createSaveAudioFilePathSetting();
 		this.createNewFileToggleSetting();
 		this.createNewFilePathSetting();
@@ -130,6 +131,22 @@ export class WhisperSettingsTab extends PluginSettingTab {
 				await this.settingsManager.saveSettings(this.plugin.settings);
 			}
 		);
+	}
+
+	private createIncludeFileLinkToggleSetting(): void {
+		new Setting(this.containerEl)
+			.setName("Include File Link in Markdown")
+			.setDesc(
+				"Enable to automatically include the file location link in the Markdown document after processing."
+			)
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.includeFileLinkInMarkdown)
+					.onChange(async (value) => {
+						this.plugin.settings.includeFileLinkInMarkdown = value;
+						await this.settingsManager.saveSettings(this.plugin.settings);
+					})
+			);
 	}
 
 	private createSaveAudioFileToggleSetting(): void {

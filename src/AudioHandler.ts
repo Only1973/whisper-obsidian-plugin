@@ -81,13 +81,23 @@ export class AudioHandler {
 				this.plugin.settings.createNewFileAfterRecording || !activeView;
 
 			if (shouldCreateNewFile) {
-				await this.plugin.app.vault.create(
-					noteFilePath,
-					`![[${audioFilePath}]]\n${response.data.text}`
-				);
+				const { includeFileLinkInMarkdown } = this.plugin.settings;
+
+				let content = `:fileStart:responseText`;
+				if (includeFileLinkInMarkdown) {
+					content = content.replace(':fileStart', `![[${audioFilePath}]]\n`)
+				} else {
+					content = content.replace(':fileStart', '')
+				}
+				content = content.replace(':responseText', `${response.data.text}`)
+
+				console.log(`${noteFilePath}: noteFilePath`)
+				console.log(`${content}: content`)
+				await this.plugin.app.vault.create(noteFilePath, `${content}`);
+
 				await this.plugin.app.workspace.openLinkText(
+					`${content}`,
 					noteFilePath,
-					"",
 					true
 				);
 			} else {

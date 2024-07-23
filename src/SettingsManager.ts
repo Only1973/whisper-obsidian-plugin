@@ -11,6 +11,7 @@ export interface WhisperSettings {
 	debugMode: boolean;
 	createNewFileAfterRecording: boolean;
 	createNewFileAfterRecordingPath: string;
+	includeFileLinkInMarkdown: boolean;
 }
 
 export const DEFAULT_SETTINGS: WhisperSettings = {
@@ -24,6 +25,7 @@ export const DEFAULT_SETTINGS: WhisperSettings = {
 	debugMode: false,
 	createNewFileAfterRecording: true,
 	createNewFileAfterRecordingPath: "",
+	includeFileLinkInMarkdown: true,
 };
 
 export class SettingsManager {
